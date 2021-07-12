@@ -1,12 +1,14 @@
 import random
 
-def jogar():
+
+def mensagem_abertura():
     print("*********************************")
     print("***Bem vindo ao jogo da Forca!***")
     print("*********************************")
 
-    arquivo = open("palavras.txt", "r")
-    palavras = []
+def carrega_palavra_secreta():
+    arquivo = open("palavras.txt", "r") 
+    palavras = [] 
 
     for linha in arquivo:
         linha = linha.strip()
@@ -17,25 +19,43 @@ def jogar():
     numero = random.randrange(0,len(palavras))
     palavra_secreta = palavras[numero].upper()
 
-    letras_acertadas = ["_" for letra in palavra_secreta]
+    return palavra_secreta
 
+def inicializa_letras_acertadas(palavra_secreta):
+    return ["_" for letra in palavra_secreta]
+    
+def solicita_chute():
+    chute = input("Qual letra? ")
+    chute = chute.strip().upper()
+    
+def revela_letra(palavra_secreta, chute, letras_acertadas):
+    index = 0
+    for letra in palavra_secreta:
+        if(chute == letra):
+            letras_acertadas[index] = letra
+        index += 1
+
+def mensagem_sucesso():
+    print("Você ganhou")
+
+def mensagem_fracasso():
+    print("Você perdeu")
+
+def jogar():
+    mensagem_abertura()
+    palavra_secreta = carrega_palavra_secreta()
+    
+    letras_acertadas = inicializa_letras_acertadas(palavra_secreta)
+    print(letras_acertadas)
+    
     enforcou = False
     acertou = False
     erros = 0
 
-    print(letras_acertadas)
-
     while(not enforcou and not acertou):
-
-        chute = input("Qual letra? ")
-        chute = chute.strip().upper()
-
+        chute = solicita_chute()
         if(chute in palavra_secreta):
-            index = 0
-            for letra in palavra_secreta:
-                if(chute == letra):
-                    letras_acertadas[index] = letra
-                index += 1
+            revela_letra(palavra_secreta, chute, letras_acertadas)   
         else:
             erros += 1
             print("Ops, você errou! Faltam {} tentativas.".format(6-erros))
@@ -46,9 +66,9 @@ def jogar():
 
 
     if(acertou):
-        print("Você ganhou!!")
+        mensagem_sucesso()
     else:
-        print("Você perdeu!!")
+        mensagem_fracasso()
     print("Fim do jogo")
 
 if(__name__ == "__main__"):
