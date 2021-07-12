@@ -2,7 +2,7 @@ pizza
 chocolate
 sucrilhos
 tapioca
-fricassê
+feijoada
 macarronada
 sorvete
 danone
